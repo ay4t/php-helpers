@@ -1,0 +1,21 @@
+{
+    "name": "ay4t/php-helpers",
+    "description": "Fungsi helper untuk PHP",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ayatulloh Ahad R",
+            "email": "kawoel@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "giggsey/libphonenumber-for-php": "^8.0@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ay4t\\Helper\\": "src/"
+        }
+    }
+}
