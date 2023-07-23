@@ -52,6 +52,21 @@ trait Currency
     }
 
     /**
+     * FUngsi untuk merubah nilai angka (integer) menjadi format string terbilang:
+     * misal: 1000 menjadi seribu rupiah, 1000000 menjadi satu juta rupiah, dst
+     * Support dengan locale [id_ID] coming soon
+     */
+    public static function terbilang( int $amount = 0, string $locale = 'id_ID' ) : string {
+        
+        $numberFormatter = new \NumberFormatter($locale, \NumberFormatter::SPELLOUT);
+        $numberFormatter->setTextAttribute(\NumberFormatter::DEFAULT_RULESET, "%spellout-numbering-verbose");
+        $numberFormatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, 0);
+
+        $terbilang = $numberFormatter->format($amount);
+        return $terbilang;
+    }
+
+    /**
      * Setter $useSpaceSymbol
      */
     public function setUseSpaceSymbol( bool $useSpaceSymbol ) : bool {
