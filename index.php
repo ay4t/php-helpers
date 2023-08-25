@@ -9,19 +9,41 @@ use Ay4t\Helper\HP;
 
 require_once './vendor/autoload.php';
 
-$a= HP::terbilang( 1000, 'id_ID' );
-var_dump($a);
+/* $helper = HP::Formatter('Phone');
+$helper->set('085791555506', 'ID');
 
-// contoh untuk format phone number
-/* echo HP::phoneNumber( '085791555506', 'ID' ); */
+// jika Anda ingin mengambil hanya integer saja, maka gunakan method onlyInteger()
+$helper->onlyInteger(true);
 
-/* $helper     = new HP();
-$helper->setOnlyInteger(true);
-echo $helper->phoneNumber( '085791555506', 'ID' ); */
+// untuk mendapatkan hasil format, gunakan method getResult()
+$result = $helper->getResult();
+var_dump( $result );
 
 
-// echo HP::currency( 1000000, 'USD', 2 );
+$helper = HP::Formatter('Currency');
+$helper->set('3123123', 'IDR', 2);
 
-/* $helper     = new HP();
-$helper->setUseSpaceSymbol(true);
-echo $helper->currency( 1000000, 'IDR', 2 ); */
+// jika anda ingin mengubah menjadi fungsi terbilang
+$helper->counted();
+
+$result = $helper->getResult();
+var_dump( $result ); */
+
+
+// semua contoh dan cara penggunaan mengikuti :
+// https://carbon.nesbot.com/docs/
+/* $helper = HP::Formatter('Datetime');
+$result     = $helper::now()->toDateTimeString();
+var_dump( $result ); */
+
+
+$helper = HP::Formatter('Datetime');
+$helper::now();
+$helper->add(1, 'day');
+
+/* $result     = $helper->toDateTimeString();
+// atau
+$result     = $helper->format('Y-m-d H:i:s'); */
+// atau
+$result     = $helper->isoFormat('dddd D');
+var_dump( $result );
