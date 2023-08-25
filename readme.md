@@ -1,3 +1,5 @@
+Paket PHP helper yang umum atau sering kita gunakan dalam pengembangan aplikasi berbasis PHP. Package ini dibuat untuk memudahkan pengembang aplikasi dalam mengembangkan aplikasi berbasis PHP. Saat ini masih terdapat Phone Formatter, Currency Formatter, dan Date Formatter.
+
 # Contoh Penggunaan
 Berikut ini adalah contoh penggunaan dari package helper ini.
 
