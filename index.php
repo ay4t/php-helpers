@@ -1,5 +1,7 @@
 <?php
 
+// testing
+
 // display all php errors
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -37,13 +39,29 @@ $result     = $helper::now()->toDateTimeString();
 var_dump( $result ); */
 
 
-$helper = HP::Formatter('Datetime');
-$helper::now();
-$helper->add(1, 'day');
+// $helper = HP::Formatter('Datetime');
+// $helper::now();
+// $helper->add(1, 'day');
 
-/* $result     = $helper->toDateTimeString();
-// atau
-$result     = $helper->format('Y-m-d H:i:s'); */
-// atau
-$result     = $helper->isoFormat('dddd D');
-var_dump( $result );
+// /* $result     = $helper->toDateTimeString();
+// // atau
+// $result     = $helper->format('Y-m-d H:i:s'); */
+// // atau
+// $result     = $helper->isoFormat('dddd D');
+// var_dump( $result );
+
+$no     = [
+    '085791555506',
+    '6285791555506',
+    '+6285791555506',
+    '85791555506',
+    '085 791 555 506',
+];
+
+foreach ($no as $key => $value) {
+    $helper = HP::Formatter('Phone');
+    $helper->set($value, 'ID');
+    $helper->onlyInteger(true);
+    $result = $helper->getResult();
+    var_dump( $result );
+}
