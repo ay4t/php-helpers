@@ -10,10 +10,23 @@ composer require ay4t/php-helpers
 
 ## 🎯 Fitur Utama
 
+### 📊 Formatters
 - 📱 **Phone Formatter**: Format nomor telepon dengan berbagai standar
 - 💰 **Currency Formatter**: Format mata uang dengan berbagai opsi
 - 📅 **DateTime Formatter**: Format tanggal dan waktu
 - 🔄 **Array Helper**: Manipulasi array dengan mudah dan ekspresif
+
+### 🛠️ String & File
+- 📝 **String Helper**: Manipulasi string dengan berbagai method
+- 📂 **File Helper**: Operasi file dan direktori yang aman
+
+### 🔒 Security & Validation
+- 🔐 **Security Helper**: Hashing password, enkripsi data, dan pembuatan token
+- ✅ **Validation Helper**: Validasi data dengan berbagai aturan
+
+### 🌐 Web
+- 🔗 **URL Helper**: Parsing dan manipulasi URL
+- 📄 **HTML Helper**: Pembuatan elemen HTML dan form builder yang aman
 
 ## 🛠️ Penggunaan Dasar
 
@@ -37,10 +50,23 @@ $result = HP::Array($data)->where('status', 'active')->pluck('name');
 
 Dokumentasi lengkap tersedia untuk setiap helper:
 
+### 📊 Formatters
 - [📱 Phone Formatter](docs/formatter/Phone.md)
 - [💰 Currency Formatter](docs/formatter/Currency.md)
 - [📅 DateTime Formatter](docs/formatter/Datetime.md)
 - [🔄 Array Helper](docs/formatter/ArrayHelper.md)
+
+### 🛠️ String & File
+- [📝 String Helper](docs/String/StringHelper.md)
+- [📂 File Helper](docs/File/FileHelper.md)
+
+### 🔒 Security & Validation
+- [🔐 Security Helper](docs/Security/SecurityHelper.md)
+- [✅ Validation Helper](docs/Validation/ValidationHelper.md)
+
+### 🌐 Web
+- [🔗 URL Helper](docs/URL/URLHelper.md)
+- [📄 HTML Helper](docs/HTML/HTMLHelper.md)
 
 ## 🤝 Kontribusi
 
