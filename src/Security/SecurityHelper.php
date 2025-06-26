@@ -9,7 +9,7 @@ namespace Ay4t\Helper\Security;
  * @package Ay4t\Helper\Security
  * @author Ayatulloh Ahad R
  */
-class SecurityHelper implements \Ay4t\Helper\Interface\FormatterInterface
+class SecurityHelper implements \Ay4t\Helper\Interfaces\FormatterInterface
 {
     /** @var mixed */
     private $data;
@@ -143,17 +143,18 @@ class SecurityHelper implements \Ay4t\Helper\Interface\FormatterInterface
      * 
      * @return string
      */
-    public function generateCsrfToken(): string
+    /**
+     * Generate a CSRF token and store it in the provided variable.
+     * 
+     * @param string &$storage The variable (e.g., a session variable) to store the token in.
+     * @return string
+     */
+    public function generateCsrfToken(string &$storage): string
     {
-        if (!isset($_SESSION)) {
-            session_start();
+        if (empty($storage)) {
+            $storage = $this->generateToken();
         }
-
-        if (empty($_SESSION['csrf_token'])) {
-            $_SESSION['csrf_token'] = $this->generateToken();
-        }
-
-        return $_SESSION['csrf_token'];
+        return $storage;
     }
 
     /**
@@ -162,13 +163,19 @@ class SecurityHelper implements \Ay4t\Helper\Interface\FormatterInterface
      * @param string $token Token to verify
      * @return bool
      */
-    public function verifyCsrfToken(string $token): bool
+    /**
+     * Verify a CSRF token against a stored token.
+     * 
+     * @param string $token Token to verify
+     * @param string $storage The stored token to verify against.
+     * @return bool
+     */
+    public function verifyCsrfToken(string $token, string $storage): bool
     {
-        if (!isset($_SESSION)) {
-            session_start();
+        if (empty($storage)) {
+            return false;
         }
-
-        return hash_equals($_SESSION['csrf_token'] ?? '', $token);
+        return hash_equals($storage, $token);
     }
 
     /**
@@ -223,5 +230,16 @@ class SecurityHelper implements \Ay4t\Helper\Interface\FormatterInterface
     public function hmac(string $key, string $algo = 'sha256'): string
     {
         return hash_hmac($algo, $this->data, $key);
+    }
+
+    /**
+     * Get the result which is the data.
+     * Required by FormatterInterface.
+     *
+     * @return mixed
+     */
+    public function getResult()
+    {
+        return $this->data;
     }
 }

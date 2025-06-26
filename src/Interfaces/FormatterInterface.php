@@ -1,8 +1,6 @@
 <?php
 
-// FormatterInterface
-
-namespace Ay4t\Helper\Interface;
+namespace Ay4t\Helper\Interfaces;
 
 interface FormatterInterface
 {

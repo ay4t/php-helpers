@@ -12,7 +12,7 @@ namespace Ay4t\Helper\Formatter;
  * - HP::Currency(string $amount, string $currency, int $decimal)
  * - HP::Currency(string $amount)->counted();
  */
-class Currency implements \Ay4t\Helper\Interface\FormatterInterface
+class Currency implements \Ay4t\Helper\Interfaces\FormatterInterface
 {
     /**
      * @var string $amount

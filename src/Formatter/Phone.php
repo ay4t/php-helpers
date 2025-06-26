@@ -9,7 +9,7 @@ namespace Ay4t\Helper\Formatter;
  * - HP::Phone(string $phone, string $countryCode)
  * - HP::Phone(string $phone, string $countryCode, string $format)
  */
-class Phone implements \Ay4t\Helper\Interface\FormatterInterface
+class Phone implements \Ay4t\Helper\Interfaces\FormatterInterface
 {
     /**
      * @var string $phoneNumber

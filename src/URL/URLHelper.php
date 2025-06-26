@@ -9,13 +9,13 @@ namespace Ay4t\Helper\URL;
  * @package Ay4t\Helper\URL
  * @author Ayatulloh Ahad R
  */
-class URLHelper implements \Ay4t\Helper\Interface\FormatterInterface
+class URLHelper implements \Ay4t\Helper\Interfaces\FormatterInterface
 {
     /** @var string */
     private $url;
 
     /** @var array */
-    private $components;
+    private $components = [];
 
     /**
      * Set the URL to be processed
@@ -250,11 +250,16 @@ class URLHelper implements \Ay4t\Helper\Interface\FormatterInterface
 
         // Add path
         if (isset($this->components['path'])) {
-            if (isset($baseComponents['path'])) {
-                $absolute['path'] = dirname($baseComponents['path']) . '/' . ltrim($this->components['path'], '/');
-            } else {
-                $absolute['path'] = $this->components['path'];
+            $basePath = $baseComponents['path'] ?? '/';
+
+            // If the base path doesn't end with /, get its directory
+            if (substr($basePath, -1) !== '/') {
+                $basePath = dirname($basePath);
             }
+            // ensure it ends with a slash
+            $basePath = rtrim($basePath, '/') . '/';
+
+            $absolute['path'] = $basePath . ltrim($this->components['path'], '/');
         }
 
         // Add query and fragment
@@ -274,7 +279,7 @@ class URLHelper implements \Ay4t\Helper\Interface\FormatterInterface
      * @param array $components Optional components to override
      * @return string
      */
-    private function buildUrl(array $components = []): string
+    public function buildUrl(array $components = []): string
     {
         $final = array_merge($this->components, $components);
         
@@ -313,5 +318,16 @@ class URLHelper implements \Ay4t\Helper\Interface\FormatterInterface
         }
         
         return $url;
+    }
+
+    /**
+     * Get the result which is the URL.
+     * Required by FormatterInterface.
+     *
+     * @return string
+     */
+    public function getResult(): string
+    {
+        return $this->url;
     }
 }

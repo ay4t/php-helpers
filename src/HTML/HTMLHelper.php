@@ -9,7 +9,7 @@ namespace Ay4t\Helper\HTML;
  * @package Ay4t\Helper\HTML
  * @author Ayatulloh Ahad R
  */
-class HTMLHelper implements \Ay4t\Helper\Interface\FormatterInterface
+class HTMLHelper implements \Ay4t\Helper\Interfaces\FormatterInterface
 {
     /** @var array */
     private $attributes = [];
@@ -303,5 +303,16 @@ class HTMLHelper implements \Ay4t\Helper\Interface\FormatterInterface
         }
         
         return $html;
+    }
+
+    /**
+     * Get the result which is the content.
+     * Required by FormatterInterface.
+     *
+     * @return string
+     */
+    public function getResult(): string
+    {
+        return $this->content ?? '';
     }
 }

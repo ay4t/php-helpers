@@ -13,7 +13,7 @@ namespace Ay4t\Helper\Formatter;
  * - HP::Array($array)->unique()
  * - HP::Array($array)->chunk(2)
  */
-class ArrayHelper implements \Ay4t\Helper\Interface\FormatterInterface
+class ArrayHelper implements \Ay4t\Helper\Interfaces\FormatterInterface
 {
     private $array;
 
@@ -94,17 +94,34 @@ class ArrayHelper implements \Ay4t\Helper\Interface\FormatterInterface
      */
     public function sortBy($field, $direction = 'asc')
     {
-        $sorted = $this->array;
-        usort($sorted, function($a, $b) use ($field, $direction) {
-            $a = is_array($a) ? $a[$field] : $a->$field;
-            $b = is_array($b) ? $b[$field] : $b->$field;
+        // Wrap array elements with their original keys to achieve a stable sort
+        $indexedArray = array_map(function($key, $value) {
+            return ['key' => $key, 'value' => $value];
+        }, array_keys($this->array), $this->array);
+
+        usort($indexedArray, function($a, $b) use ($field, $direction) {
+            $valA = is_array($a['value']) ? $a['value'][$field] : $a['value']->$field;
+            $valB = is_array($b['value']) ? $b['value'][$field] : $b['value']->$field;
             
+            $comparison = 0;
             if ($direction === 'asc') {
-                return $a <=> $b;
+                $comparison = $valA <=> $valB;
+            } else {
+                $comparison = $valB <=> $valA;
             }
-            return $b <=> $a;
+
+            // If values are equal, use original key to maintain order
+            if ($comparison === 0) {
+                return $a['key'] <=> $b['key'];
+            }
+            
+            return $comparison;
         });
-        return $sorted;
+
+        // Unwrap the array to return only the original values
+        return array_map(function($item) {
+            return $item['value'];
+        }, $indexedArray);
     }
 
     /**
@@ -176,5 +193,15 @@ class ArrayHelper implements \Ay4t\Helper\Interface\FormatterInterface
             $array = $this->array;
         }
         return implode($delimiter, $array);
+    }
+
+    /**
+     * Get the result of the formatting.
+     *
+     * @return array
+     */
+    public function getResult()
+    {
+        return $this->array;
     }
 }

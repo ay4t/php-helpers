@@ -9,7 +9,7 @@ namespace Ay4t\Helper\Validation;
  * @package Ay4t\Helper\Validation
  * @author Ayatulloh Ahad R
  */
-class ValidationHelper implements \Ay4t\Helper\Interface\FormatterInterface
+class ValidationHelper implements \Ay4t\Helper\Interfaces\FormatterInterface
 {
     /** @var mixed */
     private $data;
@@ -82,12 +82,12 @@ class ValidationHelper implements \Ay4t\Helper\Interface\FormatterInterface
      */
     public function isUrl(bool $requireProtocol = true): bool
     {
-        $flags = FILTER_FLAG_HOST_REQUIRED;
         if ($requireProtocol) {
-            $flags |= FILTER_FLAG_SCHEME_REQUIRED;
+            return filter_var($this->data, FILTER_VALIDATE_URL) !== false;
         }
 
-        return filter_var($this->data, FILTER_VALIDATE_URL, $flags) !== false;
+        // If protocol is not required, prepend a dummy protocol to validate host and path
+        return filter_var('http://' . $this->data, FILTER_VALIDATE_URL) !== false;
     }
 
     /**
@@ -383,7 +383,7 @@ class ValidationHelper implements \Ay4t\Helper\Interface\FormatterInterface
      * @param mixed $params Rule parameters
      * @return bool
      */
-    private function validateRule(string $field, $value, string $rule, $params): bool
+    protected function validateRule(string $field, $value, string $rule, $params): bool
     {
         $this->data = $value;
         
@@ -428,7 +428,7 @@ class ValidationHelper implements \Ay4t\Helper\Interface\FormatterInterface
      * @param mixed $params Rule parameters
      * @return string
      */
-    private function getErrorMessage(string $field, string $rule, $params): string
+    protected function getErrorMessage(string $field, string $rule, $params): string
     {
         $messages = [
             'required' => 'The %s field is required.',
@@ -450,5 +450,16 @@ class ValidationHelper implements \Ay4t\Helper\Interface\FormatterInterface
         }
         
         return sprintf($message, $field, $params);
+    }
+
+    /**
+     * Get the result which is the data.
+     * Required by FormatterInterface.
+     *
+     * @return mixed
+     */
+    public function getResult()
+    {
+        return $this->data;
     }
 }

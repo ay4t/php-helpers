@@ -16,12 +16,52 @@ namespace Ay4t\Helper;
  */
 class HP
 {
-    public static function Formatter($formatterName)
+    /**
+     * Magic method to dynamically call helper classes.
+     *
+     * @param string $name      The name of the helper class (e.g., 'Phone', 'Currency').
+     * @param array  $arguments The arguments to pass to the helper's `set` or constructor method.
+     * @return object The helper instance.
+     */
+    public static function __callStatic($name, $arguments)
     {
-        // Tentukan namespace untuk formatter yang sesuai
-        $formatterNamespace = "\\Ay4t\\Helper\\Formatter\\{$formatterName}";
+        // Define potential namespaces
+        $namespaces = [
+            'Ay4t\\Helper\\Formatter\\',
+            'Ay4t\\Helper\\String\\',
+            'Ay4t\\Helper\\File\\',
+        ];
 
-        // Buat instance formatter
-        return new $formatterNamespace();
+        // Define possible class name patterns
+        $classPatterns = [
+            ucfirst($name),
+            ucfirst($name) . 'Helper',
+        ];
+
+        $foundClass = null;
+        foreach ($namespaces as $namespace) {
+            foreach ($classPatterns as $classPattern) {
+                $fullClassName = $namespace . $classPattern;
+                if (class_exists($fullClassName)) {
+                    $foundClass = $fullClassName;
+                    break 2;
+                }
+            }
+        }
+
+        if (!$foundClass) {
+            throw new \BadMethodCallException("Helper '{$name}' not found.");
+        }
+
+        $reflection = new \ReflectionClass($foundClass);
+
+        // If a 'set' method exists, we instantiate without constructor args and then call 'set'.
+        if ($reflection->hasMethod('set')) {
+            $instance = $reflection->newInstance();
+            return $instance->set(...$arguments);
+        }
+        
+        // Otherwise, we pass the arguments to the constructor.
+        return $reflection->newInstanceArgs($arguments);
     }
 }

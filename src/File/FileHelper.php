@@ -9,7 +9,7 @@ namespace Ay4t\Helper\File;
  * @package Ay4t\Helper\File
  * @author Ayatulloh Ahad R
  */
-class FileHelper implements \Ay4t\Helper\Interface\FormatterInterface
+class FileHelper implements \Ay4t\Helper\Interfaces\FormatterInterface
 {
     /** @var string */
     private $filePath;
@@ -219,5 +219,16 @@ class FileHelper implements \Ay4t\Helper\Interface\FormatterInterface
     {
         $backupPath = $this->filePath . $suffix;
         return $this->copy($backupPath, true);
+    }
+
+    /**
+     * Get the result which is the file path.
+     * Required by FormatterInterface.
+     *
+     * @return string
+     */
+    public function getResult(): string
+    {
+        return $this->filePath;
     }
 }

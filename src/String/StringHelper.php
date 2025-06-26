@@ -9,7 +9,7 @@ namespace Ay4t\Helper\String;
  * @package Ay4t\Helper\String
  * @author Ayatulloh Ahad R
  */
-class StringHelper implements \Ay4t\Helper\Interface\FormatterInterface
+class StringHelper implements \Ay4t\Helper\Interfaces\FormatterInterface
 {
     /** @var string */
     private $string;
@@ -182,7 +182,7 @@ class StringHelper implements \Ay4t\Helper\Interface\FormatterInterface
      */
     public function extractEmails(): array
     {
-        preg_match_all('/[\w.+-]+@[\w-]+\.[\w.-]+/', $this->string, $matches);
+        preg_match_all('/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/', $this->string, $matches);
         return $matches[0] ?? [];
     }
 
@@ -224,5 +224,15 @@ class StringHelper implements \Ay4t\Helper\Interface\FormatterInterface
         }, $words);
 
         return mb_strtoupper(implode('', array_slice($initials, 0, $length)));
+    }
+
+    /**
+     * Get the result of the formatting.
+     *
+     * @return string
+     */
+    public function getResult()
+    {
+        return $this->string;
     }
 }
