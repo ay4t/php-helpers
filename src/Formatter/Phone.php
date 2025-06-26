@@ -68,9 +68,10 @@ class Phone implements \Ay4t\Helper\Interfaces\FormatterInterface
      * @param boolean $onlyInteger
      * @return void
      */
-    public function onlyInteger( bool $onlyInteger ) 
+    public function onlyInteger( bool $onlyInteger ): self
     {
         $this->onlyInteger = $onlyInteger;
+        return $this;
     }
 
 }
