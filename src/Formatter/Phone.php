@@ -53,10 +53,14 @@ class Phone implements \Ay4t\Helper\Interfaces\FormatterInterface
     public function getResult() : string
     {   
         $phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
-        $phoneNumberObject = $phoneUtil->parse( $this->phoneNumber, $this->countryCode);
-        
-        if( $this->onlyInteger === true ){
-            return $phoneNumberObject->getCountryCode() . $phoneNumberObject->getNationalNumber();            
+        try {
+            $phoneNumberObject = $phoneUtil->parse($this->phoneNumber, $this->countryCode);
+        } catch (\libphonenumber\NumberParseException $e) {
+            throw new \InvalidArgumentException('Invalid phone number: ' . $e->getMessage());
+        }
+
+        if ($this->onlyInteger === true) {
+            return $phoneNumberObject->getCountryCode() . $phoneNumberObject->getNationalNumber();
         }
 
         return $phoneUtil->format($phoneNumberObject, \libphonenumber\PhoneNumberFormat::INTERNATIONAL);

@@ -135,18 +135,49 @@ class ValidationHelper implements \Ay4t\Helper\Interfaces\FormatterInterface
      */
     public function isNumeric(bool $allowNegative = true, bool $allowFloat = true): bool
     {
-        if (!is_numeric($this->data)) {
+        // Float allowed: simple is_numeric + negative rule
+        if ($allowFloat) {
+            if (!is_numeric($this->data)) {
+                return false;
+            }
+            if (!$allowNegative && (float)$this->data < 0) {
+                return false;
+            }
+            return true;
+        }
+
+        // Float not allowed: must be integer-like value
+        if (is_int($this->data)) {
+            if (!$allowNegative && $this->data < 0) {
+                return false;
+            }
+            return true;
+        }
+
+        if (is_string($this->data)) {
+            // Match optional minus and digits only
+            if (!preg_match('/^-?\d+$/', $this->data)) {
+                return false;
+            }
+            if (!$allowNegative && str_starts_with($this->data, '-')) {
+                return false;
+            }
+            return true;
+        }
+
+        if (is_float($this->data)) {
+            // Floats are not allowed in this branch
             return false;
         }
 
-        if (!$allowNegative && $this->data < 0) {
+        // Fallback: try to cast and validate as string
+        $value = (string)$this->data;
+        if (!preg_match('/^-?\d+$/', $value)) {
             return false;
         }
-
-        if (!$allowFloat && strpos($this->data, '.') !== false) {
+        if (!$allowNegative && str_starts_with($value, '-')) {
             return false;
         }
-
         return true;
     }
 

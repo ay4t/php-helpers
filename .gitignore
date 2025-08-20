@@ -1,3 +1,4 @@
 vendor
 *.lock
 .git-commit-history
+.phpunit.result.cache

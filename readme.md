@@ -33,22 +33,43 @@ composer require ay4t/php-helpers
 ```php
 use Ay4t\Helper\HP;
 
-// Format nomor telepon
-$phone = HP::Phone("081234567890")->format();
+// Phone: format internasional
+$phone = HP::Phone('081234567890', 'ID')->getResult();            // "+62 812-3456-7890"
 
-// Format mata uang
-$amount = HP::Currency(1000000)->format();
+// Phone: hanya integer (MSISDN)
+$msisdn = HP::Phone('081234567890', 'ID')->onlyInteger(true)->getResult(); // "6281234567890"
 
-// Format tanggal
-$date = HP::Datetime("2023-01-01")->format("d F Y");
+// Currency: format mata uang
+$amount = HP::Currency(1000000, 'IDR', 2)->getResult();
 
-// Manipulasi array
-$result = HP::Array($data)->where('status', 'active')->pluck('name');
+// Currency: terbilang (spell-out)
+$terbilang = HP::Currency(1000000, 'IDR', 2)->counted()->getResult();
+
+// Datetime (Carbon wrapper)
+$now = HP::Datetime()::now()->toDateTimeString();
+
+// Array helper
+$names = HP::Array($data)->where('status', 'active')->pluck('name');
+
+// String helper
+$slug = HP::String('Hello World!')->slugify();                      // "hello-world"
+
+// URL helper
+$url  = HP::URL('https://example.com?a=1')->addQueryParam('b', 2)->getResult();
+
+// HTML helper
+$aTag = HP::HTML()->link('https://example.com', 'Visit');
+
+// Security helper
+$hashed = HP::Security()->hashPassword('secret');
+
+// Validation helper
+$isEmail = HP::Validation('test@example.com')->isEmail();
 ```
 
 ## 📚 Dokumentasi
 
-Dokumentasi lengkap tersedia untuk setiap helper:
+Beberapa dokumentasi tersedia:
 
 ### 📊 Formatters
 - [📱 Phone Formatter](docs/formatter/Phone.md)

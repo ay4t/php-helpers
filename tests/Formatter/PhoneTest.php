@@ -35,7 +35,7 @@ class PhoneTest extends TestCase
 
     public function testInvalidNumber()
     {
-        $this->expectException(\libphonenumber\NumberParseException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->phoneHelper->set('not a phone number', 'ID')->getResult();
     }
     

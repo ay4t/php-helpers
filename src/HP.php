@@ -30,6 +30,10 @@ class HP
             'Ay4t\\Helper\\Formatter\\',
             'Ay4t\\Helper\\String\\',
             'Ay4t\\Helper\\File\\',
+            'Ay4t\\Helper\\HTML\\',
+            'Ay4t\\Helper\\Security\\',
+            'Ay4t\\Helper\\URL\\',
+            'Ay4t\\Helper\\Validation\\',
         ];
 
         // Define possible class name patterns

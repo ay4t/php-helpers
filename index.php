@@ -11,35 +11,29 @@ use Ay4t\Helper\HP;
 
 require_once './vendor/autoload.php';
 
-/* $helper = HP::Formatter('Phone');
-$helper->set('085791555506', 'ID');
-
+/* Contoh penggunaan facade HP */
+/* $helper = HP::Phone('085791555506', 'ID');
 // jika Anda ingin mengambil hanya integer saja, maka gunakan method onlyInteger()
 $helper->onlyInteger(true);
-
 // untuk mendapatkan hasil format, gunakan method getResult()
 $result = $helper->getResult();
-var_dump( $result );
+var_dump($result);
 
-
-$helper = HP::Formatter('Currency');
-$helper->set('3123123', 'IDR', 2);
-
+$helper = HP::Currency('3123123', 'IDR', 2);
 // jika anda ingin mengubah menjadi fungsi terbilang
 $helper->counted();
-
 $result = $helper->getResult();
-var_dump( $result ); */
+var_dump($result); */
 
 
-// semua contoh dan cara penggunaan mengikuti :
+// semua contoh dan cara penggunaan Carbon mengikuti:
 // https://carbon.nesbot.com/docs/
-/* $helper = HP::Formatter('Datetime');
-$result     = $helper::now()->toDateTimeString();
-var_dump( $result ); */
+/* $helper = HP::Datetime();
+$result = $helper::now()->toDateTimeString();
+var_dump($result); */
 
 
-// $helper = HP::Formatter('Datetime');
+// $helper = HP::Datetime();
 // $helper::now();
 // $helper->add(1, 'day');
 
@@ -59,9 +53,8 @@ $no     = [
 ];
 
 foreach ($no as $key => $value) {
-    $helper = HP::Formatter('Phone');
-    $helper->set($value, 'ID');
+    $helper = HP::Phone($value, 'ID');
     $helper->onlyInteger(true);
     $result = $helper->getResult();
-    var_dump( $result );
+    var_dump($result);
 }
