@@ -132,4 +132,52 @@ class StringHelperTest extends TestCase
         $this->stringHelper->set($string);
         $this->assertEquals($string, $this->stringHelper->getResult());
     }
+
+    public function testToBoolean_BooleanStrings()
+    {
+        $this->assertTrue($this->stringHelper->set('true')->toBoolean());
+        $this->assertFalse($this->stringHelper->set('false')->toBoolean());
+        $this->assertTrue($this->stringHelper->set('TRUE')->toBoolean());
+        $this->assertFalse($this->stringHelper->set('FALSE')->toBoolean());
+    }
+
+    public function testToBoolean_YesNo_OnOff_TF_YN()
+    {
+        $this->assertTrue($this->stringHelper->set('yes')->toBoolean());
+        $this->assertFalse($this->stringHelper->set('no')->toBoolean());
+        $this->assertTrue($this->stringHelper->set('on')->toBoolean());
+        $this->assertFalse($this->stringHelper->set('off')->toBoolean());
+
+        $this->assertTrue($this->stringHelper->set('t')->toBoolean());
+        $this->assertFalse($this->stringHelper->set('f')->toBoolean());
+        $this->assertTrue($this->stringHelper->set('y')->toBoolean());
+        $this->assertFalse($this->stringHelper->set('n')->toBoolean());
+    }
+
+    public function testToBoolean_Numeric()
+    {
+        $this->assertTrue($this->stringHelper->set('1')->toBoolean());
+        $this->assertFalse($this->stringHelper->set('0')->toBoolean());
+        $this->assertTrue($this->stringHelper->set('42')->toBoolean());
+        $this->assertTrue($this->stringHelper->set('-1')->toBoolean());
+        $this->assertFalse($this->stringHelper->set('0.0')->toBoolean());
+        $this->assertTrue($this->stringHelper->set('0.1')->toBoolean());
+    }
+
+    public function testToBoolean_DefaultFallback()
+    {
+        $this->assertTrue($this->stringHelper->set('maybe')->toBoolean(true));
+        $this->assertFalse($this->stringHelper->set('maybe')->toBoolean(false));
+        // Tanpa default -> fallback false
+        $this->assertFalse($this->stringHelper->set('maybe')->toBoolean());
+    }
+
+    public function testToBoolean_MethodChaining()
+    {
+        // Pastikan set()->toBoolean() bekerja berurutan untuk nilai berbeda
+        $this->assertTrue($this->stringHelper->set('true')->toBoolean());
+        $this->assertFalse($this->stringHelper->set('false')->toBoolean());
+        $this->assertTrue($this->stringHelper->set('yes')->toBoolean());
+        $this->assertFalse($this->stringHelper->set('no')->toBoolean());
+    }
 }

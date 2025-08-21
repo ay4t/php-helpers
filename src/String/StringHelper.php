@@ -235,4 +235,62 @@ class StringHelper implements \Ay4t\Helper\Interfaces\FormatterInterface
     {
         return $this->string;
     }
+
+    /**
+     * Convert current value to boolean.
+     *
+     * Mendukung berbagai representasi:
+     * - Boolean string: "true", "false" (case-insensitive)
+     * - Truthy/Falsy string umum: "yes/no", "y/n", "on/off", "t/f"
+     * - Numerik: "1"/"0" atau angka lain (non-zero -> true, zero -> false)
+     * - JSON boolean: 'true' / 'false'
+     *
+     * Jika konversi gagal dan $default disediakan, kembalikan $default.
+     * Jika $default tidak disediakan dan konversi gagal, kembalikan false.
+     *
+     * Contoh:
+     *   $helper->set('true')->toBoolean();          // true
+     *   $helper->set('maybe')->toBoolean(true);     // true (fallback)
+     *   $helper->set('0')->toBoolean();             // false
+     *
+     * @param bool|null $default Nilai pengganti jika konversi gagal
+     * @return bool
+     */
+    public function toBoolean(?bool $default = null): bool
+    {
+        $value = $this->string;
+
+        // Normalisasi string
+        $trimmed = trim((string)$value);
+
+        // 1) Coba JSON boolean murni
+        if ($trimmed === 'true' || $trimmed === 'false') {
+            return $trimmed === 'true';
+        }
+
+        // 2) FILTER_VALIDATE_BOOLEAN mendukung: true/false, on/off, yes/no, 1/0 (case-insensitive)
+        $filtered = filter_var($trimmed, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+        if ($filtered !== null) {
+            return (bool)$filtered;
+        }
+
+        // 3) Numerik umum: non-zero -> true, zero -> false
+        if (is_numeric($trimmed)) {
+            return ((float)$trimmed) != 0.0;
+        }
+
+        // 4) Alias tambahan: t/f, y/n
+        $lower = strtolower($trimmed);
+        $aliasesTrue  = ['t', 'y'];
+        $aliasesFalse = ['f', 'n'];
+        if (in_array($lower, $aliasesTrue, true)) {
+            return true;
+        }
+        if (in_array($lower, $aliasesFalse, true)) {
+            return false;
+        }
+
+        // Gagal konversi: gunakan default bila ada, jika tidak false
+        return $default ?? false;
+    }
 }
