@@ -102,6 +102,40 @@ $result = HP::String("the quick brown fox")->toTitleCase();
 // Result: "The Quick Brown Fox"
 ```
 
+### 9. toBoolean(?bool $default = null)
+Mengonversi nilai string ke boolean dengan dukungan berbagai representasi:
+
+- String boolean: `"true"`, `"false"` (case-insensitive)
+- Truthy/falsy umum: `"yes/no"`, `"on/off"`, `"t/f"`, `"y/n"`
+- Numerik: `"1"/"0"` atau angka lain (`non-zero` -> `true`, `0` -> `false`)
+- Mendukung nilai default jika konversi gagal.
+
+```php
+// Boolean strings
+HP::String('true')->toBoolean();     // true
+HP::String('FALSE')->toBoolean();    // false
+
+// Yes/No, On/Off, T/F, Y/N
+HP::String('yes')->toBoolean();      // true
+HP::String('off')->toBoolean();      // false
+HP::String('t')->toBoolean();        // true
+HP::String('n')->toBoolean();        // false
+
+// Numerik
+HP::String('1')->toBoolean();        // true
+HP::String('0')->toBoolean();        // false
+HP::String('42')->toBoolean();       // true
+HP::String('0.0')->toBoolean();      // false
+
+// Default fallback ketika tidak dapat dikonversi
+HP::String('maybe')->toBoolean(true);  // true (fallback)
+HP::String('maybe')->toBoolean();      // false (default bawaan)
+
+// Chaining
+HP::String('yes')->toBoolean();      // true
+HP::String('no')->toBoolean();       // false
+```
+
 ## 🌟 Contoh Penggunaan Kompleks
 
 ### Format Nama File
