@@ -15,9 +15,10 @@ composer require ay4t/php-helpers
 - 💰 **Currency Formatter**: Format mata uang dengan berbagai opsi
 - 📅 **DateTime Formatter**: Format tanggal dan waktu
 - 🔄 **Array Helper**: Manipulasi array dengan mudah dan ekspresif
+- 🎲 **Math Helper**: Operasi probabilitas (`isChance`) dan utilitas matematika
 
 ### 🛠️ String & File
-- 📝 **String Helper**: Manipulasi string dengan berbagai method
+- 📝 **String Helper**: Manipulasi string dengan berbagai method (`slugify`, `toBoolean`, `truncate`, dll.)
 - 📂 **File Helper**: Operasi file dan direktori yang aman
 
 ### 🔒 Security & Validation
@@ -53,6 +54,10 @@ $names = HP::Array($data)->where('status', 'active')->pluck('name');
 
 // String helper
 $slug = HP::String('Hello World!')->slugify();                      // "hello-world"
+$bool = HP::String('yes')->toBoolean();                            // true
+
+// Math helper: probability check
+$isLucky = HP::Math()->isChance(50);                               // true/false (50% chance)
 
 // URL helper
 $url  = HP::URL('https://example.com?a=1')->addQueryParam('b', 2)->getResult();
@@ -76,6 +81,7 @@ Beberapa dokumentasi tersedia:
 - [💰 Currency Formatter](docs/formatter/Currency.md)
 - [📅 DateTime Formatter](docs/formatter/Datetime.md)
 - [🔄 Array Helper](docs/formatter/ArrayHelper.md)
+- [🎲 Math Helper](docs/formatter/MathHelper.md)
 
 ### 🛠️ String & File
 - [📝 String Helper](docs/String/StringHelper.md)
